@@ -1,20 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "Firefox Multi-Account Containers",
-  "version": "7.3.0",
+  "name": "BBMAC",
+  "version": "1.0.0",
   "incognito": "not_allowed",
-  "description": "Multi-Account Containers helps you keep all the parts of your online life contained in different tabs. Custom labels and color-coded tabs help keep different activities — like online shopping, travel planning, or checking work email — separate.",
+  "description": "A friendly fork of the Multi-Account Containers with an accelerated release schedule",
   "icons": {
     "48": "img/container-site-d-48.png",
     "96": "img/container-site-d-96.png"
   },
   "applications": {
     "gecko": {
-      "id": "@testpilot-containers",
+      "id": "bbmac@bbayles.com",
       "strict_min_version": "67.0"
     }
   },
-  "homepage_url": "https://github.com/mozilla/multi-account-containers#readme",
+  "homepage_url": "https://git.io/JGvV7",
   "permissions": [
     "<all_urls>",
     "activeTab",
