@@ -4,8 +4,8 @@ async function requestPermissions() {
   const checkbox = document.querySelector("#bookmarksPermissions");
   if (checkbox.checked) {
     const granted = await browser.permissions.request({permissions: ["bookmarks"]});
-    if (!granted) { 
-      checkbox.checked = false; 
+    if (!granted) {
+      checkbox.checked = false;
       return;
     }
   } else {
@@ -31,17 +31,25 @@ async function enableDisablePageAction() {
   await browser.runtime.sendMessage({ method: "resetPageAction" });
 }
 
+async function changeTheme() {
+  const theme = document.querySelector("#changeTheme");
+  await browser.storage.local.set({currentTheme: theme.value});
+  await browser.storage.local.set({currentThemeId: theme.selectedIndex});
+}
+
 async function setupOptions() {
   const hasPermission = await browser.permissions.contains({permissions: ["bookmarks"]});
   const { syncEnabled } = await browser.storage.local.get("syncEnabled");
   const { replaceTabEnabled } = await browser.storage.local.get("replaceTabEnabled");
   const { pageActionEnabled } = await browser.storage.local.get({ pageActionEnabled: true });
+  const { currentThemeId } = await browser.storage.local.get("currentThemeId");
   if (hasPermission) {
     document.querySelector("#bookmarksPermissions").checked = true;
   }
   document.querySelector("#syncCheck").checked = !!syncEnabled;
   document.querySelector("#replaceTabCheck").checked = !!replaceTabEnabled;
   document.querySelector("#pageActionCheck").checked = !!pageActionEnabled;
+  document.querySelector("#changeTheme").selectedIndex = currentThemeId;
   setupContainerShortcutSelects();
 }
 
@@ -91,6 +99,7 @@ document.querySelector("#bookmarksPermissions").addEventListener( "change", requ
 document.querySelector("#syncCheck").addEventListener( "change", enableDisableSync);
 document.querySelector("#replaceTabCheck").addEventListener( "change", enableDisableReplaceTab);
 document.querySelector("#pageActionCheck").addEventListener( "change", enableDisablePageAction);
+document.querySelector("#changeTheme").addEventListener( "change", changeTheme);
 document.querySelector("button").addEventListener("click", resetOnboarding);
 
 for (let i=0; i < NUMBER_OF_KEYBOARD_SHORTCUTS; i++) {

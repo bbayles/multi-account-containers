@@ -47,6 +47,21 @@ async function getExtensionInfo() {
   return extensionInfo;
 }
 
+async function applyTheme() {
+  const { currentTheme } = await browser.storage.local.get("currentTheme");
+  const popup = document.getElementsByTagName("html")[0];
+
+  if (typeof currentTheme === "undefined" || currentTheme === "auto") {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      popup.setAttribute("data-theme", "dark");
+    } else {
+      popup.setAttribute("data-theme", "light");
+    }
+  } else {
+    popup.setAttribute("data-theme", currentTheme);
+  }
+}
+
 // This object controls all the panels, identities and many other things.
 const Logic = {
   _identities: [],
@@ -1503,6 +1518,7 @@ Logic.registerPanel(P_CONTAINERS_ACHIEVEMENT, {
 });
 
 Logic.init();
+applyTheme();
 
 window.addEventListener("resize", function () {
   //for overflow menu
